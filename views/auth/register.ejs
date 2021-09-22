@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+  </head>
+  <body>
+    <h1>Register</h1>
+
+    <% if (message) { %> <% message.forEach(m => { %>
+    <p><%= m %></p>
+    <% }) %> <% } %>
+
+    <form action="/auth/register" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" placeholder="Your unique username" autocomplete="off" /><br /><br />
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" placeholder="Your own email" autocomplete="off" /><br /><br />
+      <label for="pass">Password</label>
+      <input type="text" name="password" id="pass" placeholder="Your secure password" autocomplete="off" /><br /><br />
+      <label for="role">Role</label>
+      <select name="role" id="role">
+        <option value="pengajar">Pengajar</option>
+        <option value="siswa">Siswa</option>
+      </select>
+      <button type="submit">Daftar</button>
+    </form>
+
+    <p>Sudah punya akun? Login <a href="/auth">disini</a></p>
+    <a href="/">Home</a>
+  </body>
+</html>
