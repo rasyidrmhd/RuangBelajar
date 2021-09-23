@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Siswa</title>
+    <title>Sewa Course</title>
     <style>
       ul {
         padding: 0;
@@ -17,7 +17,7 @@
   <body>
     <h1>Ruang Belajar</h1>
     <ul id="nav">
-      <li><a href="/siswa/add-course">Sewa Course</a></li>
+      <li><a href="/siswa">My Course</a></li>
       &nbsp;||&nbsp;
       <li><a href="/siswa/profile">Profile</a></li>
       &nbsp;||&nbsp;
@@ -27,29 +27,26 @@
     <table border="1">
       <thead>
         <th>No</th>
-        <th>Nama</th>
-        <th>Expired</th>
+        <th>Name</th>
+        <th>Durasi</th>
+        <th>Pengajar</th>
+        <th>Posted</th>
+        <th>Harga</th>
         <th>Aksi</th>
       </thead>
       <tbody>
-        <% data.Courses.forEach((c, i) => { %>
+        <% data.forEach((d, i) => { %> <% let found = false %> <% d.Students.forEach(s => { %> <% if (s.id === id) { %> <% found = true %> <% } %> <% }) %> <% if (!found) { %>
         <tr>
           <td><% i++ %><%= i %></td>
-          <td><%= c.name %></td>
-          <% if (new Date() > new Date(c.studentCourse.expired)) { %>
-          <td>Expired</td>
-          <td><a href="/siswa/<%= c.id %>/delete-course">Hapus</a></td>
-          <% }else{ %>
-          <td><%= dateFormatter(c.studentCourse.expired) %></td>
-          <td><a href="/siswa/<%= c.id %>/detail-course">Lihat Course</a></td>
-          <% } %>
+          <td><%= d.name %></td>
+          <td><%= d.duration %> hari</td>
+          <td><%= d.Teacher.username %></td>
+          <td><%= dateFormatter(d.createdAt) %></td>
+          <td><%= d.getPrice() %></td>
+          <td><a href="/siswa/<%= d.id %>/add-course">Sewa</a></td>
         </tr>
-        <%}); %>
+        <% } %> <% }) %>
       </tbody>
     </table>
-
-    <br />
-    <strong>e-Wallet:</strong>
-    <%= data.studentProfile.getMoney() %> || <a href="/siswa/topup">Top-up</a>
   </body>
 </html>

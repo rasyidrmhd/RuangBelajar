@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { Teacher, Student, Profile, studentProfile } = require("../models");
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 
@@ -8,20 +8,19 @@ class C_auth {
   }
 
   static postLoginPage(req, res) {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
+    let query;
+    let option = {
+      where: { [Op.or]: [{ username: username }, { email: username }] },
+    };
 
-    User.findOne({
-      where: {
-        [Op.or]: [
-          {
-            username: username,
-          },
-          {
-            email: username,
-          },
-        ],
-      },
-    })
+    if (role === "pengajar") {
+      query = Teacher.findOne(option);
+    } else {
+      query = Student.findOne(option);
+    }
+
+    query
       .then((user) => {
         if (user) {
           req.session.user = { id: user.id, role: user.role };
@@ -58,17 +57,27 @@ class C_auth {
 
   static postRegisterPage(req, res) {
     const { username, email, password, role } = req.body;
+    let query;
 
-    User.create({
-      username,
-      email,
-      password,
-      role,
-    })
+    if (role === "pengajar") {
+      query = Teacher.create({ username, email, password, role }, { returning: true });
+    } else {
+      query = Student.create({ username, email, password, role }, { returning: true });
+    }
+
+    query
+      .then((added) => {
+        if (role === "pengajar") {
+          return Profile.create({ money: 0, TeacherId: added.id });
+        } else {
+          return studentProfile.create({ money: 0, StudentId: added.id });
+        }
+      })
       .then((added) => {
         res.redirect("/auth?message=Akun Anda berhasil dibuat, silahkan login");
       })
       .catch((err) => {
+        console.log(err);
         let errors = [];
         if (err.name === "SequelizeUniqueConstraintError") {
           errors[0] = "Username atau email sudah terdaftar";

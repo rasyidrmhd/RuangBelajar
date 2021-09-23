@@ -9,10 +9,16 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
 
-    return queryInterface.changeColumn("Users", "username", {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
+    return queryInterface.addColumn("Profiles", "UserId", {
+      type: Sequelize.INTEGER,
+      references: {
+        model: {
+          tableName: "Teachers",
+        },
+        key: "id",
+      },
+      onDelete: "cascade",
+      onUpdate: "cascade",
     });
   },
 
@@ -24,9 +30,6 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
-    return queryInterface.changeColumn("Users", "username", {
-      type: Sequelize.STRING,
-      allowNull: true,
-    });
+    return queryInterface.removeColumn("Profiles", "UserId", {});
   },
 };
