@@ -8,29 +8,38 @@ class C_auth {
   }
 
   static postLoginPage(req, res) {
-    const { username, password, role } = req.body;
+    const { username, password } = req.body;
     let query;
     let option = {
       where: { [Op.or]: [{ username: username }, { email: username }] },
     };
 
-    if (role === "pengajar") {
-      query = Teacher.findOne(option);
-    } else {
-      query = Student.findOne(option);
-    }
+    // if (role === "pengajar") {
+    //   query = Teacher.findOne(option);
+    // } else {
+    //   query = Student.findOne(option);
+    // }
 
-    query
+    Teacher.findOne(option)
       .then((user) => {
         if (user) {
-          req.session.user = { id: user.id, role: user.role };
           const isValidPassword = bcrypt.compareSync(password, user.password);
           if (isValidPassword) {
-            if (user.role === "pengajar") {
-              return res.redirect("/pengajar");
-            } else {
-              return res.redirect("/siswa");
-            }
+            req.session.user = { id: user.id, role: user.role };
+            return res.redirect("/pengajar");
+          } else {
+            return res.redirect("/auth?message=Username atau password Anda salah");
+          }
+        } else {
+          return Student.findOne(option);
+        }
+      })
+      .then((user) => {
+        if (user) {
+          const isValidPassword = bcrypt.compareSync(password, user.password);
+          if (isValidPassword) {
+            req.session.user = { id: user.id, role: user.role };
+            return res.redirect("/siswa");
           } else {
             return res.redirect("/auth?message=Username atau password Anda salah");
           }

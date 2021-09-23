@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Course.belongsTo(models.Teacher, { foreignKey: "TeacherId" });
       Course.belongsToMany(models.Student, { through: models.studentCourse });
+      Course.belongsTo(models.Category, { foreignKey: "CategoryId" });
     }
 
     getPrice() {
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       duration: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
       TeacherId: DataTypes.INTEGER,
+      CategoryId: DataTypes.INTEGER,
     },
     {
       sequelize,

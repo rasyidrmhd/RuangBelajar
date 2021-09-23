@@ -1,0 +1,30 @@
+[
+  {
+    "fullName": "Muhammad Rasyid Ridho",
+    "address": "Ujungberung, Bandung",
+    "phone": "081911400000",
+    "money": 150000,
+    "StudentId": 1
+  },
+  {
+    "fullName": "Darwin Santoso",
+    "address": "Tangerang Panas",
+    "phone": "089999900000",
+    "money": 160000,
+    "StudentId": 2
+  },
+  {
+    "fullName": "Samuel Matthew",
+    "address": "Tangerang Lupa",
+    "phone": "087766554433",
+    "money": 200000,
+    "StudentId": 3
+  },
+  {
+    "fullName": "Haji Damar",
+    "address": "Sesuatu di Jogja",
+    "phone": "087654321000",
+    "money": 200000,
+    "StudentId": 4
+  }
+]
