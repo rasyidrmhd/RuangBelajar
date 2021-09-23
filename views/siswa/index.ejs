@@ -1,55 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Siswa</title>
-    <style>
-      ul {
-        padding: 0;
-      }
-      ul#nav li {
-        display: inline;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Ruang Belajar</h1>
-    <ul id="nav">
-      <li><a href="/siswa/add-course">Sewa Course</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/profile">Profile</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/logout">Logout</a></li>
-    </ul>
-
-    <table border="1">
-      <thead>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Expired</th>
-        <th>Aksi</th>
-      </thead>
-      <tbody>
-        <% data.Courses.forEach((c, i) => { %>
-        <tr>
-          <td><% i++ %><%= i %></td>
-          <td><%= c.name %></td>
-          <% if (new Date() > new Date(c.studentCourse.expired)) { %>
-          <td>Expired</td>
-          <td><a href="/siswa/<%= c.id %>/delete-course">Hapus</a></td>
-          <% }else{ %>
-          <td><%= dateFormatter(c.studentCourse.expired) %></td>
-          <td><a href="/siswa/<%= c.id %>/detail-course">Lihat Course</a></td>
-          <% } %>
-        </tr>
-        <%}); %>
-      </tbody>
-    </table>
-
-    <br />
-    <strong>e-Wallet:</strong>
-    <%= data.studentProfile.getMoney() %> || <a href="/siswa/topup">Top-up</a>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %> <%- include('../partials/navbar') %>
+<div class="row justify-content-center m-0 py-4" style="width: 100vw">
+  <div class="col-10">
+    <div class="card shadow">
+      <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h4>Your Course</h4>
+        <a href="/siswa/add-course" class="btn btn-sm btn-info btn-icon-split">
+          <span class="icon">
+            <i class="fa fa-plus"></i>
+          </span>
+          <span class="text">&nbsp; Add New Course</span>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <div></div>
+          <form class="form-inline" action="/siswa" method="GET">
+            <input class="form-control form-control-sm mr-sm-2" type="text" autocomplete="off" name="search" placeholder="Type course name" />
+            <button class="btn btn-sm btn-primary my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+        <table class="table table-striped">
+          <thead class="align-middle text-center">
+            <th>No</th>
+            <th>Name</th>
+            <th>Teacher</th>
+            <th>Expired</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            <% data.Courses.forEach((c, i) => { %>
+            <tr class="text-center align-middle">
+              <td><% i++ %><%= i %></td>
+              <td class="text-left"><%= c.name %> <span class="badge badge-pill badge-success"><%= c.Category.name %> </span></td>
+              <td><%= c.Teacher.Profile.fullName %></td>
+              <% if (new Date() > new Date(c.studentCourse.expired)) { %>
+              <td>Expired</td>
+              <td><a class="btn btn-block btn-danger" href="/siswa/<%= c.id %>/delete-course">Delete</a></td>
+              <% }else{ %>
+              <td><%= dateFormatter(c.studentCourse.expired) %></td>
+              <td><a class="btn btn-block btn-success" href="/siswa/<%= c.id %>/detail-course">See</a></td>
+              <% } %>
+            </tr>
+            <%}); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/studenttopup') %> <%- include('../partials/htmlFooter') %>

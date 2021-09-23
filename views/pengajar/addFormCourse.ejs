@@ -1,23 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Form Tambah Course</title>
-  </head>
-  <body>
-    <h1>Form Tambah Course</h1>
-    <form action="/pengajar/add-course" method="POST">
-      <label for="name">Nama</label>
-      <input type="text" name="name" id="name" /><br /><br />
-      <label for="desc">Descripsi</label><br />
-      <textarea name="description" id="desc" cols="30" rows="10"></textarea><br /><br />
-      <label for="duration">Durasi</label>
-      <input type="number" name="duration" id="duration" /><br /><br />
-      <label for="price">Harga</label>
-      <input type="number" name="price" id="price" /><br /><br />
-      <button type="submit">Tambah</button>
-    </form>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %><%- include('../partials/navbar') %>
+<form action="/pengajar/add-course" method="POST">
+  <div class="row justify-content-center m-0 py-4" style="width: 100vw">
+    <div class="col-4">
+      <div class="card shadow sticky-top">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h4>Add New Course</h4>
+          <a href="/pengajar" class="btn btn-sm btn-info btn-icon-split">
+            <span class="icon">
+              <i class="fa fa-angle-left"></i>
+            </span>
+            <span class="text">Back</span>
+          </a>
+        </div>
+        <div class="card-body">
+          <% if (errors) { %> <% errors.forEach(e => {%>
+          <span class="badge badge-pill badge-danger"><%= e %> </span>
+          <% }) %>
+          <br /><br />
+          <% } %>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" name="name" id="name" />
+          </div>
+          <div class="form-group">
+            <label for="name">Duration</label>
+            <div class="row">
+              <div class="col-10">
+                <input class="form-control" type="number" name="duration" id="name" />
+              </div>
+              <div class="col-2">Day</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Price</label>
+            <div class="row">
+              <div class="col-10">
+                <input class="form-control" type="number" name="price" id="name" />
+              </div>
+              <div class="col-2">IDR</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" name="CategoryId" id="category">
+              <% category.forEach(c => { %>
+              <option value="<%= c.id %>"><%= c.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button type="submit" class="btn btn-block btn-primary">Submit</button>
+            </div>
+            <div class="col">
+              <button type="reset" class="btn btn-block btn-danger">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="editor"><h4>Description</h4></label>
+            <textarea name="description" class="form-control" rows="20"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- <h1>Form Tambah Course</h1>
+<form action="/pengajar/add-course" method="POST">
+  <label for="name">Nama</label>
+  <input type="text" name="name" id="name" /><br /><br />
+  <label for="desc">Descripsi</label><br />
+  <textarea name="description" id="desc" cols="30" rows="10"></textarea><br /><br />
+  <label for="duration">Durasi</label>
+  <input type="number" name="duration" id="duration" /><br /><br />
+  <label for="price">Harga</label>
+  <input type="number" name="price" id="price" /><br /><br />
+  <button type="submit">Tambah</button>
+</form> -->
+<%- include('../partials/htmlFooter') %>

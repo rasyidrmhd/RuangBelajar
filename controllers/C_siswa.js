@@ -1,17 +1,26 @@
-const { Student, studentProfile, Course, studentCourse, Teacher, Profile } = require("../models");
+const { Student, studentProfile, Course, studentCourse, Teacher, Profile, Category } = require("../models");
 const { dateFormatter, timeFormatter } = require("../helpers/dateFormatter");
 const { Op } = require("sequelize");
 
 class C_siswa {
   static getHomeSiswa(req, res) {
+    let where = {};
+    if (req.query.search) {
+      where = {
+        name: {
+          [Op.iLike]: `%${req.query.search}%`,
+        },
+      };
+    }
+
     Student.findOne({
       where: {
         id: req.session.user.id,
       },
-      include: [Course, studentProfile],
+      include: [{ model: Course, where: where, include: [Category, { model: Teacher, include: [Profile] }] }, { model: studentProfile }],
     })
       .then((data) => {
-        res.render("siswa", { data, dateFormatter });
+        res.render("siswa", { data, dateFormatter, user: req.session.user });
       })
       .catch((err) => {
         res.send(err);
@@ -19,19 +28,31 @@ class C_siswa {
   }
 
   static getListCourse(req, res) {
+    let course;
+    let where = {};
+    if (req.query.search) {
+      where = {
+        name: {
+          [Op.iLike]: `%${req.query.search}%`,
+        },
+      };
+    }
+
     Course.findAll({
-      include: [Teacher, Student],
+      include: [{ model: Teacher, include: [Profile] }, Student, Category],
+      where: where,
     })
       .then((data) => {
-        res.render("siswa/sewaCourse", { data, id: req.session.user.id, dateFormatter });
+        course = data;
+        console.log(data);
+        return Student.findOne({ where: { id: req.session.user.id }, include: studentProfile });
+      })
+      .then((profile) => {
+        res.render("siswa/sewaCourse", { data: profile, id: req.session.user.id, dateFormatter, user: req.session.user, course });
       })
       .catch((err) => {
         res.send(err);
       });
-  }
-
-  static getTopUp(req, res) {
-    res.render("siswa/formTopup");
   }
 
   static postTopUp(req, res) {
@@ -97,25 +118,19 @@ class C_siswa {
   }
 
   static getDetailCourse(req, res) {
-    let data = { course: null, teacher: null };
+    let course;
     Course.findOne({
-      include: [Teacher],
+      include: [{ model: Teacher, include: [Profile] }, Category],
       where: {
         id: req.params.courseId,
       },
     })
-      .then((course) => {
-        data.course = course;
-        return Profile.findOne({
-          where: {
-            TeacherId: course.TeacherId,
-          },
-        });
+      .then((data) => {
+        course = data;
+        return Student.findOne({ where: { id: req.session.user.id }, include: studentProfile });
       })
-      .then((teacher) => {
-        data.teacher = teacher;
-        console.log(data.teacher);
-        res.render("siswa/course", { data });
+      .then((profile) => {
+        res.render("siswa/course", { data: profile, course, user: req.session.user, dateFormatter });
       })
       .catch((err) => {
         res.send(err);

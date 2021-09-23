@@ -7,15 +7,17 @@ const filePath = path.join(__dirname, "../assets/profile");
 class C_profile {
   static getEditProfile(req, res) {
     let query;
-    if (req.session.user.role === "Pengajar") {
+
+    console.log(req.session.user.role);
+    if (req.session.user.role === "pengajar") {
       query = Teacher.findOne({ where: { id: req.session.user.id }, include: Profile });
     } else {
       query = Student.findOne({ where: { id: req.session.user.id }, include: studentProfile });
     }
 
     query
-      .then((user) => {
-        res.render("profile", { user });
+      .then((data) => {
+        res.render("profile", { data, user: req.session.user, message: req.query.message });
       })
       .catch((err) => {
         res.send(err);
@@ -24,11 +26,10 @@ class C_profile {
 
   static postEditProfile(req, res) {
     const { fullName, address, phone } = req.body;
-    console.log(fullName, address, phone, "?>>>>>>>>>>>>>");
     let option = { fullName, address, phone };
     let query;
 
-    if (req.session.user.role === "Pengajar") {
+    if (req.session.user.role === "pengajar") {
       query = Profile.update(option, { where: { TeacherId: req.session.user.id } });
     } else {
       query = studentProfile.update(option, { where: { StudentId: req.session.user.id } });
@@ -36,30 +37,74 @@ class C_profile {
 
     query
       .then((updated) => {
-        res.redirect("/siswa");
+        req.session.user.fullName = fullName;
+        if (req.session.user.role === "pengajar") {
+          res.redirect("/pengajar/profile?message=sukses");
+        } else {
+          res.redirect("/siswa/profile?message=sukses");
+        }
       })
       .catch((err) => {
-        res.send(err);
+        if (req.session.user.role === "pengajar") {
+          res.redirect("/pengajar/profile?message=gagal");
+        } else {
+          res.redirect("/siswa/profile?message=gagal");
+        }
       });
+  }
 
+  static postUploadPhoto(req, res) {
     // membuat objek form dari formidable
-    // const form = new formidable.IncomingForm();
-    // // penanganan upload file
-    // form.parse(req, (err, fields, files) => {
-    //   const oldpath = files.filetoupload.path;
-    //   const newpath = filePath + "/" + files.filetoupload.name;
+    const form = new formidable.IncomingForm();
+    // penanganan upload file
+    form.parse(req, (err, fields, files) => {
+      if (files.filetoupload.name) {
+        const oldpath = files.filetoupload.path;
+        let format = files.filetoupload.name.split(".");
+        format = format[format.length - 1];
+        let filename = `${req.session.user.role}_${req.session.user.id}_profile.${format}`;
+        const newpath = filePath + "/" + filename;
 
-    //   // pemindahan file dengan mv
-    //   mv(oldpath, newpath, function (err) {
-    //     if (err) {
-    //       console.log(err);
-    //       throw err;
-    //     }
-
-    //     console.log("file uploaded successfully");
-    //     return res.redirect("/siswa");
-    //   });
-    // });
+        // pemindahan file dengan mv
+        mv(oldpath, newpath, (err) => {
+          if (err) {
+            if (req.session.user.role === "pengajar") {
+              res.redirect("/pengajar/profile?message=gagal");
+            } else {
+              res.redirect("/siswa/profile?message=gagal");
+            }
+          } else {
+            if (req.session.user.role === "pengajar") {
+              Profile.update({ photo: filename }, { where: { TeacherId: req.session.user.id } })
+                .then((updated) => {
+                  req.session.user.photo = filename;
+                  res.redirect("/pengajar/profile?message=sukses");
+                })
+                .catch((err) => {
+                  res.redirect("/pengajar/profile?message=gagal");
+                });
+            } else {
+              studentProfile
+                .update({ photo: filename }, { where: { StudentId: req.session.user.id } })
+                .then((updated) => {
+                  req.session.user.photo = filename;
+                  res.redirect("/siswa/profile?message=sukses");
+                })
+                .catch((err) => {
+                  console.log(err);
+                  res.redirect("/siswa/profile?message=gagal");
+                });
+            }
+          }
+        });
+      } else {
+        if (req.session.user.role === "pengajar") {
+          res.redirect("/pengajar/profile?message=gagal");
+        } else {
+          res.redirect("/siswa/profile?message=gagal");
+        }
+      }
+    });
   }
 }
 

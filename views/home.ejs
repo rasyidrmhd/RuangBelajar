@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ruang Belajar</title>
-  </head>
-  <body>
-    <h1>Selamat Datang Hehe</h1>
+<%- include('./partials/htmlHeader') %> 
+  <h1>Selamat Datang Hehe</h1>
 
-    <% if (message) { %> <%= message %> <br /><br />
-    <% } %>
+  <% if (message) { %> <%= message %> <br /><br />
+  <% } %>
 
-    <a href="/auth">Login</a><br />
-    <a href="/auth/register">Register</a>
-  </body>
-</html>
+  <a href="/auth">Login</a><br />
+  <a href="/auth/register">Register</a>
+<%- include('./partials/htmlFooter') %> 
