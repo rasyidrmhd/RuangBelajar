@@ -1,51 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pengajar</title>
-    <style>
-      ul {
-        padding: 0;
-      }
-      ul#nav li {
-        display: inline;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Ruang Belajar</h1>
-    <ul id="nav">
-      <li><a href="/pengajar/add-course">Tambah Course</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/profile">Profile</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/pengajar/logout">Logout</a></li>
-    </ul>
-
-    <table border="1">
-      <thead>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Durasi</th>
-        <th>Harga</th>
-        <th>Tanggal Pembuatan</th>
-        <th>Aksi</th>
-      </thead>
-      <tbody>
-        <% dataCourses.forEach((c, i) => { %>
-        <tr>
-          <td><% i++ %><%= i %></td>
-          <td><%= c.name %></td>
-          <td><%= c.duration %> jam</td>
-          <td><%= c.getPrice() %></td>
-          <td><%= dateFormatter(c.createdAt) %> pukul <%= timeFormatter(c.createdAt) %></td>
-          <td><a href="">Lihat</a></td>
-        </tr>
-        <% }) %>
-        <tr></tr>
-      </tbody>
-    </table>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %> <%- include('../partials/navbar') %>
+<div class="row justify-content-center m-0 py-4" style="width: 100vw">
+  <div class="col-10">
+    <div class="card shadow">
+      <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h4>Your Course</h4>
+        <a href="/pengajar/add-course" class="btn btn-sm btn-info btn-icon-split">
+          <span class="icon">
+            <i class="fa fa-plus"></i>
+          </span>
+          <span class="text">Add New Course</span>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <div></div>
+          <form class="form-inline" action="/pengajar" method="GET">
+            <input class="form-control form-control-sm mr-sm-2" type="text" autocomplete="off" name="search" placeholder="Type course name" />
+            <button class="btn btn-sm btn-primary my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+        <table class="table table-striped">
+          <thead class="align-middle text-center">
+            <th>No</th>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Price</th>
+            <th>Posted</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            <% course.forEach((c, i) => { %>
+            <tr class="text-center align-middle">
+              <td><% i++ %><%= i %></td>
+              <td class="text-left"><%= c.name %> <span class="badge badge-pill badge-success"><%= c.Category.name %> </span></td>
+              <td><%= c.duration %> day</td>
+              <td><%= c.getPrice() %></td>
+              <td><%= dateFormatter(c.createdAt) %> pukul <%= timeFormatter(c.createdAt) %></td>
+              <td><a class="btn btn-success" href="/pengajar/<%= c.id %>/detailCourse">Lihat</a></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/htmlFooter') %>

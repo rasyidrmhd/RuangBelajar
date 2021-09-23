@@ -5,8 +5,8 @@ const C_profile = require("../controllers/C_profile");
 
 router.get("/", C_siswa.getHomeSiswa);
 router.get("/profile", C_profile.getEditProfile);
-router.post("/profile", C_profile.postEditProfile);
-router.get("/topup", C_siswa.getTopUp);
+router.post("/:id/profile", C_profile.postEditProfile);
+router.post("/upload-photo", C_profile.postUploadPhoto);
 router.post("/topup", C_siswa.postTopUp);
 router.get("/logout", C_siswa.getLogout);
 router.get("/add-course", C_siswa.getListCourse);

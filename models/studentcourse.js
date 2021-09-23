@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // studentCourse.belongsTo(models.Student, { foreignKey: "StudentId" });
-      // studentCourse.belongsTo(models.Course, { foreignKey: "CourseId" });
+      studentCourse.belongsTo(models.Student, { foreignKey: "StudentId" });
+      studentCourse.belongsTo(models.Course, { foreignKey: "CourseId" });
     }
 
     static getExpired(duration) {

@@ -9,49 +9,40 @@ class C_auth {
 
   static postLoginPage(req, res) {
     const { username, password } = req.body;
-    let query;
-    let option = {
-      where: { [Op.or]: [{ username: username }, { email: username }] },
-    };
 
-    // if (role === "pengajar") {
-    //   query = Teacher.findOne(option);
-    // } else {
-    //   query = Student.findOne(option);
-    // }
-
-    Teacher.findOne(option)
+    Teacher.findOne({ where: { [Op.or]: [{ username: username }, { email: username }] }, include: [Profile] })
       .then((user) => {
         if (user) {
           const isValidPassword = bcrypt.compareSync(password, user.password);
           if (isValidPassword) {
-            req.session.user = { id: user.id, role: user.role };
-            return res.redirect("/pengajar");
+            req.session.user = { id: user.id, role: user.role, fullName: user.Profile.fullName, photo: user.Profile.photo };
+            res.redirect("/pengajar");
           } else {
-            return res.redirect("/auth?message=Username atau password Anda salah");
+            res.redirect("/auth?message=Username atau password Anda salah");
           }
         } else {
-          return Student.findOne(option);
+          return Student.findOne({ where: { [Op.or]: [{ username: username }, { email: username }] }, include: [studentProfile] });
         }
       })
       .then((user) => {
         if (user) {
           const isValidPassword = bcrypt.compareSync(password, user.password);
           if (isValidPassword) {
-            req.session.user = { id: user.id, role: user.role };
-            return res.redirect("/siswa");
+            req.session.user = { id: user.id, role: user.role, fullName: user.studentProfile.fullName, photo: user.studentProfile.photo };
+            res.redirect("/siswa");
           } else {
-            return res.redirect("/auth?message=Username atau password Anda salah");
+            res.redirect("/auth?message=Username atau password Anda salah");
           }
         } else {
           if (!username || !password) {
-            return res.redirect("/auth?message=Mohon isi username dan password Anda");
+            res.redirect("/auth?message=Mohon isi username dan password Anda");
           } else {
-            return res.redirect("/auth?message=Username atau password Anda salah");
+            res.redirect("/auth?message=Username atau password Anda salah");
           }
         }
       })
       .catch((err) => {
+        console.log(err);
         res.send(err);
       });
   }
@@ -61,6 +52,7 @@ class C_auth {
     if (errors) {
       errors = errors.split(",");
     }
+
     res.render("auth/register", { message: errors });
   }
 

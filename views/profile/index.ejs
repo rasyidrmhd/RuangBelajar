@@ -1,30 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-  </head>
-  <body>
-    <h1>Profile</h1>
-    <img src="/assets/profile/default.png" alt="cant load image" />
-
-    <form action="/siswa/profile" method="POST" enctype="multipart/form-data">
-      <label for="foto">Foto</label>
-      <input type="file" name="filetoupload" id="foto" /><br /><br />
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" value="<%= user.username %> " /><br /><br />
-      <label for="name">Nama Lengkap</label>
-      <input type="text" name="fullName" id="name" /><br /><br />
-      <label for="address">Address</label>
-      <input type="text" name="address" id="address" /><br /><br />
-      <label for="phone">Phone</label>
-      <input type="number" name="phone" id="phone" /><br /><br />
-      <button type="submit">Simpan</button>
-    </form>
-
-    <br /><br />
-    <a href="/siswa">Kembali</a>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %> <%- include('../partials/navbar') %>
+<div class="row justify-content-center m-0 py-4" style="width: 100vw">
+  <div class="col-3">
+    <div class="card shadow sticky-top" id="sticky">
+      <div class="card-body text-center">
+        <img style="height: 50%; width: 50%" class="img-profile rounded-circle mb-2" src="/assets/profile/<%= user.photo %>" alt="" />
+        <form action="/<%= user.role %>/upload-photo" method="POST" enctype="multipart/form-data">
+          Change your profile pic
+          <div class="custom-file my-2">
+            <input type="file" name="filetoupload" class="custom-file-input" id="customFile" onchange="$(this).next().after().text($(this).val().split('\\').slice(-1)[0])" />
+            <label class="custom-file-label" for="customFile"></label>
+          </div>
+          <button type="submit" class="btn btn-block btn-danger">Upload</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="card shadow mb-4">
+      <div class="card-header">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+          <h4>Your Profile</h4>
+          <% if (message) { %> <% if (message === 'sukses') { %>
+          <span class="text-success">Successfully update profile</span>
+          <% }else{ %>
+          <span class="text-danger">Failed update profile</span>
+          <% } %> <% } %>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="/<%= user.role %>/<%= data.id %>/profile" method="POST">
+          <div class="form-group">
+            <label for="name">Nama Lengkap</label>
+            <% if (user.role === 'pengajar') { %>
+            <input class="form-control" autocomplete="off" type="text" name="fullName" id="name" value="<%= data.Profile.fullName %>" />
+            <% }else{ %>
+            <input class="form-control" autocomplete="off" type="text" name="fullName" id="name" value="<%= data.studentProfile.fullName %>" />
+            <% } %>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <% if (user.role === 'pengajar') { %>
+            <input class="form-control" autocomplete="off" type="text" name="address" id="address" value="<%= data.Profile.address %>" />
+            <% }else{ %>
+            <input class="form-control" autocomplete="off" type="text" name="address" id="address" value="<%= data.studentProfile.address %>" />
+            <% } %>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <% if (user.role === 'pengajar') { %>
+            <input class="form-control" autocomplete="off" type="number" name="phone" id="phone" value="<%= data.Profile.phone %>" />
+            <% }else{ %>
+            <input class="form-control" autocomplete="off" type="number" name="phone" id="phone" value="<%= data.studentProfile.phone %>" />
+            <% } %>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-block btn-primary" type="submit">Save</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-block btn-danger" type="reset">Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card shadow">
+      <div class="card-header">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+          <h4>Your Account</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" id="username" value="<%= data.username %>" disabled />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email" id="email" value="<%= data.email %> " disabled />
+          </div>
+          <div class="form-group">
+            <label for="role">Role</label>
+            <input class="form-control" type="text" name="role" id="role" value="<%= data.role %> " disabled />
+          </div>
+          <div class="form-group"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/studenttopup') %> <%- include('../partials/htmlFooter') %>

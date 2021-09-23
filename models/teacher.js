@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
-            msg: "Masukkan username Anda",
+            msg: "Username is required",
           },
         },
       },
@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
-            msg: "Masukkan email Anda",
+            msg: "Email is required",
           },
           isEmail: {
-            msg: "Email Anda tidak valid",
+            msg: "Your email not valid",
           },
         },
       },
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             args: [8, 12],
-            msg: "Password harus 8-12 karakter",
+            msg: "Password must 8-12 character",
           },
         },
       },

@@ -19,10 +19,34 @@ module.exports = (sequelize, DataTypes) => {
   }
   Course.init(
     {
-      name: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      duration: DataTypes.INTEGER,
-      price: DataTypes.INTEGER,
+      name: {
+        type:DataTypes.STRING,
+        validate:{
+          notEmpty:{
+            msg: "Name is required"
+          }
+        }
+      },
+      description: {
+        type:DataTypes.TEXT,validate:{
+        notEmpty:{
+          msg: "Description is required"
+        }
+      }},
+      duration: {type:DataTypes.INTEGER,
+        validate:{
+          notEmpty:{
+            msg: "Duration is required"
+          }
+        }},
+      price: {
+        type:DataTypes.INTEGER,
+        validate:{
+          notEmpty:{
+            msg: "Price is required"
+          }
+        }
+      },
       TeacherId: DataTypes.INTEGER,
       CategoryId: DataTypes.INTEGER,
     },

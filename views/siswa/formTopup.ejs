@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Form Topup</title>
-    <style>
-      ul {
-        padding: 0;
-      }
-      ul#nav li {
-        display: inline;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Ruang Belajar</h1>
-    <ul id="nav">
-      <li><a href="/siswa">My Course</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/profile">Profile</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/logout">Logout</a></li>
-    </ul>
+<%- include('../partials/htmlHeader') %>
+  <h1>Ruang Belajar</h1>
+  <ul id="nav">
+    <li><a href="/siswa">My Course</a></li>
+    &nbsp;||&nbsp;
+    <li><a href="/siswa/profile">Profile</a></li>
+    &nbsp;||&nbsp;
+    <li><a href="/siswa/logout">Logout</a></li>
+  </ul>
 
-    <h1>Top Up</h1>
-    <form action="/siswa/topup" method="POST">
-      <label for="money">Nominal</label>
-      <input type="number" name="money" id="money" /><br /><br />
-      <button type="submit">Top up</button>
-    </form>
+  <h1>Top Up</h1>
+  <form action="/siswa/topup" method="POST">
+    <label for="money">Nominal</label>
+    <input type="number" name="money" id="money" /><br /><br />
+    <button type="submit">Top up</button>
+  </form>
 
-    <br />
-    <a href="/siswa">Kembali</a>
-  </body>
-</html>
+  <br />
+  <a href="/siswa">Kembali</a>
+<%- include('../partials/htmlFooter') %>

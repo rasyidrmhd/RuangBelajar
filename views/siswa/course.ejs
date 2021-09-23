@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Course <%= data.course.name %></title>
-    <style>
-      ul {
-        padding: 0;
-      }
-      ul#nav li {
-        display: inline;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Ruang Belajar</h1>
-    <ul id="nav">
-      <li><a href="/siswa">My Course</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/profile">Profile</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/logout">Logout</a></li>
-    </ul>
-
-    <h1>Course <%= data.course.name %></h1>
-    <p><strong>Written by:</strong> <%= data.course.Teacher.username %></p>
-    <p><%= data.course.description %></p>
-    <br />
-    <a href="/siswa">Kembali</a>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %> <%- include('../partials/navbar') %>
+<div class="row justify-content-center m-0 py-4" style="width: 100vw">
+  <div class="col-3">
+    <div class="card shadow">
+      <div class="card-body text-center">
+        <img style="height: 50%; width: 50%" class="img-profile rounded-circle mb-2" src="/assets/profile/<%= course.Teacher.Profile.photo %> " alt="" /><br />
+        <strong>Posted by</strong><br /><%= course.Teacher.Profile.fullName %><br /><%= course.Teacher.Profile.address %> <br />
+        <%= dateFormatter(course.createdAt) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="card shadow">
+      <div class="card-header">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+          <h4><%= course.name %></h4>
+          <span class="badge badge-pill badge-success"><%= course.Category.name %> </span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="text-justify" id="editor"><%= course.description %></p>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/studenttopup') %> <%- include('../partials/htmlFooter') %>

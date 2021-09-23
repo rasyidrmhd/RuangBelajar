@@ -1,52 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sewa Course</title>
-    <style>
-      ul {
-        padding: 0;
-      }
-      ul#nav li {
-        display: inline;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Ruang Belajar</h1>
-    <ul id="nav">
-      <li><a href="/siswa">My Course</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/profile">Profile</a></li>
-      &nbsp;||&nbsp;
-      <li><a href="/siswa/logout">Logout</a></li>
-    </ul>
-
-    <table border="1">
-      <thead>
-        <th>No</th>
-        <th>Name</th>
-        <th>Durasi</th>
-        <th>Pengajar</th>
-        <th>Posted</th>
-        <th>Harga</th>
-        <th>Aksi</th>
-      </thead>
-      <tbody>
-        <% data.forEach((d, i) => { %> <% let found = false %> <% d.Students.forEach(s => { %> <% if (s.id === id) { %> <% found = true %> <% } %> <% }) %> <% if (!found) { %>
-        <tr>
-          <td><% i++ %><%= i %></td>
-          <td><%= d.name %></td>
-          <td><%= d.duration %> hari</td>
-          <td><%= d.Teacher.username %></td>
-          <td><%= dateFormatter(d.createdAt) %></td>
-          <td><%= d.getPrice() %></td>
-          <td><a href="/siswa/<%= d.id %>/add-course">Sewa</a></td>
-        </tr>
-        <% } %> <% }) %>
-      </tbody>
-    </table>
-  </body>
-</html>
+<%- include('../partials/htmlHeader') %> <%- include('../partials/navbar') %>
+<div class="row justify-content-center m-0 py-4" style="width: 100vw">
+  <div class="col-10">
+    <div class="card shadow">
+      <div class="card-header d-flex flex-row align-items-center justify-content-between">
+        <h4>List Course</h4>
+        <a href="/siswa" class="btn btn-sm btn-info btn-icon-split">
+          <span class="icon">
+            <i class="fa fa-angle-left"></i>
+          </span>
+          <span class="text">Back</span>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <div></div>
+          <form class="form-inline" action="/siswa/add-course" method="GET">
+            <input class="form-control form-control-sm mr-sm-2" type="text" autocomplete="off" name="search" placeholder="Type course name" />
+            <button class="btn btn-sm btn-primary my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+        <table class="table table-striped">
+          <thead class="align-middle text-center">
+            <th>No</th>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Teacher</th>
+            <th>Posted</th>
+            <th>Price</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            <% course.forEach((d,i) => { %> <% let found = false %> <% d.Students.forEach(s => { %> <% if (s.id === id) { %> <% found = true %> <% } %> <% }) %> <% if (!found) { %>
+            <tr class="text-center align-middle">
+              <td><% i++ %><%= i %></td>
+              <td class="text-left"><%= d.name %><span class="badge badge-pill badge-success"><%= d.Category.name %> </span></td>
+              <td><%= d.duration %> hari</td>
+              <td><%= d.Teacher.Profile.fullName %></td>
+              <td><%= dateFormatter(d.createdAt) %></td>
+              <td><%= d.getPrice() %></td>
+              <td><a class="btn btn-success" href="/siswa/<%= d.id %>/add-course">Sewa</a></td>
+            </tr>
+            <% } %> <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/studenttopup') %> <%- include('../partials/htmlFooter') %>
