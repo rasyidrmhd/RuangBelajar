@@ -10,7 +10,6 @@ class C_profile {
   }
 
   static postEditProfile(req, res) {
-    // upload file
     // membuat objek form dari formidable
     const form = new formidable.IncomingForm();
 
