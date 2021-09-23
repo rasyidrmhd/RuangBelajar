@@ -1,19 +1,20 @@
 "use strict";
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Teacher extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // User.hasOne(models.Profile, { foreignKey: "UserId" });
-      // User.hasMany(models.Course, { foreignKey: "UserId" });
+      Teacher.hasOne(models.Profile, { foreignKey: "TeacherId" });
+      Teacher.hasMany(models.Course, { foreignKey: "TeacherId" });
     }
   }
-  User.init(
+  Teacher.init(
     {
       username: {
         type: DataTypes.STRING,
@@ -54,8 +55,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       sequelize,
-      modelName: "User",
+      modelName: "Teacher",
     }
   );
-  return User;
+  return Teacher;
 };

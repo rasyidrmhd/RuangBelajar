@@ -5,8 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pengajar</title>
+    <style>
+      ul {
+        padding: 0;
+      }
+      ul#nav li {
+        display: inline;
+      }
+    </style>
   </head>
   <body>
-    Berhasil masuk weeeee pengajar
+    <h1>Ruang Belajar</h1>
+    <ul id="nav">
+      <li><a href="/pengajar/add-course">Tambah Course</a></li>
+      &nbsp;||&nbsp;
+      <li><a href="/profile">Profile</a></li>
+      &nbsp;||&nbsp;
+      <li><a href="/pengajar/logout">Logout</a></li>
+    </ul>
+
+    <table border="1">
+      <thead>
+        <th>No</th>
+        <th>Nama</th>
+        <th>Durasi</th>
+        <th>Harga</th>
+        <th>Tanggal Pembuatan</th>
+        <th>Aksi</th>
+      </thead>
+      <tbody>
+        <% dataCourses.forEach((c, i) => { %>
+        <tr>
+          <td><% i++ %><%= i %></td>
+          <td><%= c.name %></td>
+          <td><%= c.duration %> jam</td>
+          <td><%= c.getPrice() %></td>
+          <td><%= dateFormatter(c.createdAt) %> pukul <%= timeFormatter(c.createdAt) %></td>
+          <td><a href="">Lihat</a></td>
+        </tr>
+        <% }) %>
+        <tr></tr>
+      </tbody>
+    </table>
   </body>
 </html>

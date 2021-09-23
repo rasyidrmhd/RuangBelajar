@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Tambah Course</title>
+  </head>
+  <body>
+    <h1>Form Tambah Course</h1>
+    <form action="/pengajar/add-course" method="POST">
+      <label for="name">Nama</label>
+      <input type="text" name="name" id="name" /><br /><br />
+      <label for="desc">Descripsi</label><br />
+      <textarea name="description" id="desc" cols="30" rows="10"></textarea><br /><br />
+      <label for="duration">Durasi</label>
+      <input type="number" name="duration" id="duration" /><br /><br />
+      <label for="price">Harga</label>
+      <input type="number" name="price" id="price" /><br /><br />
+      <button type="submit">Tambah</button>
+    </form>
+  </body>
+</html>
