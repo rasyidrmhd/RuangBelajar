@@ -1,0 +1,26 @@
+[
+  {
+    "username": "acit",
+    "email": "acit@mail.com",
+    "password": "$2a$08$D9vTEwKyzRsP5xUGuPkWy.yd.DKD1Ykfye20r4.A5b95dcvwpZeL6",
+    "role": "siswa"
+  },
+  {
+    "username": "darwin",
+    "email": "darwin@mail.com",
+    "password": "$2a$08$bJ7Yb/BcvXEJkddZR.WAJ.5YfhCFaL86YOUvp8s3jmACccktezOEm",
+    "role": "siswa"
+  },
+  {
+    "username": "matthew",
+    "email": "matthew@mail.com",
+    "password": "$2a$08$D9vTEwKyzRsP5xUGuPkWy.yd.DKD1Ykfye20r4.A5b95dcvwpZeL6",
+    "role": "siswa"
+  },
+  {
+    "username": "damar",
+    "email": "damar@mail.com",
+    "password": "$2a$08$bJ7Yb/BcvXEJkddZR.WAJ.5YfhCFaL86YOUvp8s3jmACccktezOEm",
+    "role": "siswa"
+  }
+]

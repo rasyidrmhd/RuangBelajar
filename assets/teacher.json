@@ -1,0 +1,32 @@
+[
+  {
+    "username": "renhard",
+    "email": "renhard@mail.com",
+    "password": "$2a$08$D9vTEwKyzRsP5xUGuPkWy.yd.DKD1Ykfye20r4.A5b95dcvwpZeL6",
+    "role": "pengajar"
+  },
+  {
+    "username": "azrullah",
+    "email": "azrullah@mail.com",
+    "password": "$2a$08$bJ7Yb/BcvXEJkddZR.WAJ.5YfhCFaL86YOUvp8s3jmACccktezOEm",
+    "role": "pengajar"
+  },
+  {
+    "username": "alam",
+    "email": "alam@mail.com",
+    "password": "$2a$08$D9vTEwKyzRsP5xUGuPkWy.yd.DKD1Ykfye20r4.A5b95dcvwpZeL6",
+    "role": "pengajar"
+  },
+  {
+    "username": "josep",
+    "email": "josep@mail.com",
+    "password": "$2a$08$bJ7Yb/BcvXEJkddZR.WAJ.5YfhCFaL86YOUvp8s3jmACccktezOEm",
+    "role": "pengajar"
+  },
+  {
+    "username": "sandika",
+    "email": "sandika@mail.com",
+    "password": "$2a$08$D9vTEwKyzRsP5xUGuPkWy.yd.DKD1Ykfye20r4.A5b95dcvwpZeL6",
+    "role": "pengajar"
+  }
+]

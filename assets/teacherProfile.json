@@ -1,0 +1,30 @@
+[
+  {
+    "fullName": "Renhaaaaaard Julindra",
+    "address": "Jakarta",
+    "phone": "088888999911",
+    "money": 0,
+    "TeacherId": 1
+  },
+  {
+    "fullName": "Azrullah Kainage",
+    "address": "Beauty Papua",
+    "phone": "087695411111",
+    "money": 0,
+    "TeacherId": 2
+  },
+  {
+    "fullName": "Alam Rumambi",
+    "address": "Lupa",
+    "phone": "086789911111",
+    "money": 0,
+    "TeacherId": 3
+  },
+  {
+    "fullName": "Josep Immanuel",
+    "address": "Jakarta",
+    "phone": "089765432123",
+    "money": 0,
+    "TeacherId": 4
+  }
+]

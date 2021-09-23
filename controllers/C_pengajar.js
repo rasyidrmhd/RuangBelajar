@@ -17,7 +17,6 @@ class C_pengajar {
   }
 
   static getAddFormCourse(req, res) {
-    console.log(req.session.user.id);
     res.render("pengajar/addFormCourse");
   }
 

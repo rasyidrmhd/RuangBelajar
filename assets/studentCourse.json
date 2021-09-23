@@ -1,0 +1,27 @@
+[
+  {
+    "expired": "2021-08-01",
+    "StudentId": 1,
+    "CourseId": 2
+  },
+  {
+    "expired": "2021-08-01",
+    "StudentId": 1,
+    "CourseId": 3
+  },
+  {
+    "expired": "2021-08-01",
+    "StudentId": 1,
+    "CourseId": 4
+  },
+  {
+    "expired": "2021-12-12",
+    "StudentId": 4,
+    "CourseId": 3
+  },
+  {
+    "expired": "2021-08-01",
+    "StudentId": 4,
+    "CourseId": 5
+  }
+]
