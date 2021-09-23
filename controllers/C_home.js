@@ -1,6 +1,6 @@
 class C_home {
   static getHome(req, res) {
-    res.render("home", { message: req.query.message });
+    res.redirect("/auth");
   }
 }
 

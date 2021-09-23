@@ -1,23 +1,22 @@
 <%- include('../partials/htmlHeader') %>
-  <h1>Login</h1>
+<h1>Login</h1>
 
-  <% if (message) { %> <%= message %> <br />
-  <% } %>
+<% if (message) { %> <%= message %> <br />
+<% } %>
 
-  <form action="/auth" method="POST">
-    <!-- <label for="role">Masuk Sebagai:</label>
+<form action="/auth" method="POST">
+  <!-- <label for="role">Masuk Sebagai:</label>
     <select name="role" id="role">
       <option value="pengajar">Pengajar</option>
       <option value="siswa">Siswa</option>
     </select>
     <br /><br /> -->
-    <label for="username">Username</label>
-    <input type="text" name="username" placeholder="Your username or email" /><br /><br />
-    <label for="pass">Password</label>
-    <input type="password" name="password" placeholder="Your password" />
-    <button type="submit">Login</button>
-  </form>
+  <label for="username">Username</label>
+  <input type="text" name="username" placeholder="Your username or email" /><br /><br />
+  <label for="pass">Password</label>
+  <input type="password" name="password" placeholder="Your password" />
+  <button type="submit">Login</button>
+</form>
 
-  <p>Belom punya akun? Daftar <a href="/auth/register">disini</a></p>
-  <a href="/">Home</a>
+<p>Belom punya akun? Daftar <a href="/auth/register">disini</a></p>
 <%- include('../partials/htmlFooter') %>
