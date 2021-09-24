@@ -17,9 +17,19 @@ class C_siswa {
       where: {
         id: req.session.user.id,
       },
-      include: [{ model: Course, where: where, include: [Category, { model: Teacher, include: [Profile] }] }, { model: studentProfile }],
+      include: [
+        { model: Course, 
+          where: where, 
+          include: [
+            Category, 
+            { model: Teacher, include: [Profile] }
+          ]   
+        },
+        { model: studentProfile }
+      ],
     })
       .then((data) => {
+        console.log(data);
         res.render("siswa", { data, dateFormatter, user: req.session.user });
       })
       .catch((err) => {

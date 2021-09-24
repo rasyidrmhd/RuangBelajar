@@ -1,10 +1,23 @@
 {
-  "name": "RuangBelajar",
+  "name": "ruang-belajar",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "formidable": "^1.2.2",
+    "mv": "^2.1.1",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5",
+    "webrtc": "^1.14.1"
+  },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -16,16 +29,5 @@
   "bugs": {
     "url": "https://github.com/rasyidrmhd/RuangBelajar/issues"
   },
-  "homepage": "https://github.com/rasyidrmhd/RuangBelajar#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "ejs": "^3.1.6",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "formidable": "^1.2.2",
-    "mv": "^2.1.1",
-    "pg": "^8.7.1",
-    "sequelize": "^6.6.5",
-    "webrtc": "^1.14.1"
-  }
+  "homepage": "https://github.com/rasyidrmhd/RuangBelajar#readme"
 }

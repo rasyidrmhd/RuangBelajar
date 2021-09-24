@@ -60,10 +60,28 @@
       </div>
     </div>
     <div class="col-6">
+      <div class="card shadow mb-4">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h4>Recording Video</h4>
+        </div>
+        <div class="card-body text-center">
+          <video class="mirror" id="gum" playsinline autoplay muted></video>
+          <p class="hidden">Echo cancellation: <input type="checkbox" id="echoCancellation" checked /></p>
+          <div>
+            <button type="button" class="btn btn-danger" id="start">Buka Kamera</button>
+            <button type="button" class="btn btn-danger" id="record" disabled>Rekam</button>
+          </div>
+          <div>
+            <span id="errorMsg"></span>
+          </div>
+        </div>
+      </div>
       <div class="card shadow">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h4>Description</h4>
+        </div>
         <div class="card-body">
           <div class="form-group">
-            <label for="editor"><h4>Description</h4></label>
             <textarea name="description" class="form-control" rows="20"></textarea>
           </div>
         </div>
@@ -71,17 +89,4 @@
     </div>
   </div>
 </form>
-
-<!-- <h1>Form Tambah Course</h1>
-<form action="/pengajar/add-course" method="POST">
-  <label for="name">Nama</label>
-  <input type="text" name="name" id="name" /><br /><br />
-  <label for="desc">Descripsi</label><br />
-  <textarea name="description" id="desc" cols="30" rows="10"></textarea><br /><br />
-  <label for="duration">Durasi</label>
-  <input type="number" name="duration" id="duration" /><br /><br />
-  <label for="price">Harga</label>
-  <input type="number" name="price" id="price" /><br /><br />
-  <button type="submit">Tambah</button>
-</form> -->
 <%- include('../partials/htmlFooter') %>

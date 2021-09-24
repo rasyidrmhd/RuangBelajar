@@ -121,6 +121,18 @@ class C_pengajar {
       });
   }
 
+  static getDeleteCourse(req,res){
+    Course.destroy({
+      where:{
+        id: Number(req.params.courseId)
+      }
+    }).then(deleted=>{
+      res.redirect('/pengajar')
+    }).catch(err=>{
+      res.send(err)
+    })
+  }
+
   static getLogout(req, res) {
     req.session.destroy((err) => {
       if (err) {

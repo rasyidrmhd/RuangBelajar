@@ -1,25 +1,67 @@
 <%- include('../partials/htmlHeader') %>
-  <h1>Register</h1>
 
-  <% if (message) { %> <% message.forEach(m => { %>
-  <p><%= m %></p>
-  <% }) %> <% } %>
+<div class="container">
+  <div class="row justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-5">
+      <img src="/assets/csv/register.svg" style="width: 120%;" alt="">
+    </div>
+    <div class="col-xl-5 col-lg-12 col-md-9">
+      <div class="card o-hidden border-0 shadow-lg">
+        <div class="card-body p-0">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h3 text-gray-900">Ruang Belajar</h1>
+              <h2 class="h3 text-gray-900">Sign Up</h2>
+              <% if (message) { %> <% message.forEach(m => { %>
+                <span class="badge badge-pill badge-danger"><%= m %></span>
+              <% }) %> <% } %>
+            </div>
+            <form class="user mt-4" method="POST" action="/auth/register">
+              <div class="form-group">
+                <select class="form-control" name="role" id="">
+                  <option value="pengajar">Teacher</option>
+                  <option value="siswa">Student</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" aria-describedby="emailHelp" autocomplete="off" placeholder="Your unique username" name="username"/>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" aria-describedby="emailHelp" autocomplete="off" placeholder="Your own email" name="email"/>
+              </div>
+              <div class="input-group mb-3">
+                <input id="pass" type="password" autocomplete="off" class="form-control form-control-user" name="password" placeholder="Your strong password" />
+                <div class="input-group-append">
+                  <span id="show" class="input-group-text bg-white" style="border-radius: 0px 50px 50px 0px"><i id="eye" class="fas fa-fw fa-eye"></i></span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-user btn-block">Register</button>
+              <hr />
+            </form>
+            <div class="text-center">
+              <p>Already have account? <a class="text-decoration-none" href="/auth">Sign in</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <form action="/auth/register" method="POST">
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" placeholder="Your unique username" autocomplete="off" /><br /><br />
-    <label for="email">Email</label>
-    <input type="text" name="email" id="email" placeholder="Your own email" autocomplete="off" /><br /><br />
-    <label for="pass">Password</label>
-    <input type="password" name="password" id="pass" placeholder="Your secure password" autocomplete="off" /><br /><br />
-    <label for="role">Role</label>
-    <select name="role" id="role">
-      <option value="pengajar">Pengajar</option>
-      <option value="siswa">Siswa</option>
-    </select>
-    <button type="submit">Daftar</button>
-  </form>
+<!-- <form action="/auth/register" method="POST">
+  <label for="username">Username</label>
+  <input type="text" name="username" id="username" placeholder="Your unique username" autocomplete="off" /><br /><br />
+  <label for="email">Email</label>
+  <input type="text" name="email" id="email" placeholder="Your own email" autocomplete="off" /><br /><br />
+  <label for="pass">Password</label>
+  <input type="password" name="password" id="pass" placeholder="Your secure password" autocomplete="off" /><br /><br />
+  <label for="role">Role</label>
+  <select name="role" id="role">
+    <option value="pengajar">Pengajar</option>
+    <option value="siswa">Siswa</option>
+  </select>
+  <button type="submit">Daftar</button>
+</form> -->
 
-  <p>Sudah punya akun? Login <a href="/auth">disini</a></p>
-  <a href="/">Home</a>
+<!-- <p>Sudah punya akun? Login <a href="/auth">disini</a></p> -->
 <%- include('../partials/htmlFooter') %>

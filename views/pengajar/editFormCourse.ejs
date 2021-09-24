@@ -4,7 +4,7 @@
     <div class="col-4">
       <div class="card shadow sticky-top">
         <div class="card-header d-flex flex-row align-items-center justify-content-between">
-          <h4>Add New Course</h4>
+          <h4>Edit Course</h4>
           <a href="/pengajar" class="btn btn-sm btn-info btn-icon-split">
             <span class="icon">
               <i class="fa fa-angle-left"></i>
@@ -64,9 +64,11 @@
     </div>
     <div class="col-6">
       <div class="card shadow">
+        <div class="card-header d-flex flex-row align-items-center justify-content-between">
+          <h4>Description</h4>
+        </div>
         <div class="card-body">
           <div class="form-group">
-            <label for="editor"><h4>Description</h4></label>
             <textarea name="description" rows="20" class="form-control"><%= course.description %></textarea>
           </div>
         </div>
@@ -74,17 +76,4 @@
     </div>
   </div>
 </form>
-
-<!-- <h1>Form Tambah Course</h1>
-<form action="/pengajar/add-course" method="POST">
-  <label for="name">Nama</label>
-  <input type="text" name="name" id="name" /><br /><br />
-  <label for="desc">Descripsi</label><br />
-  <textarea name="description" id="desc" cols="30" rows="10"></textarea><br /><br />
-  <label for="duration">Durasi</label>
-  <input type="number" name="duration" id="duration" /><br /><br />
-  <label for="price">Harga</label>
-  <input type="number" name="price" id="price" /><br /><br />
-  <button type="submit">Tambah</button>
-</form> -->
 <%- include('../partials/htmlFooter') %>

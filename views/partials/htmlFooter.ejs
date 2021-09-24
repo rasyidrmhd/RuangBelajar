@@ -2,13 +2,245 @@
     <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/assets/js/sb-admin-2.min.js"></script>
-    
+    <script src="/assets/vendor/rtc/js/adapter-latest.js"></script>
+
     <script>
-      ClassicEditor
-          .create( document.querySelector( '#editor' ) )
-          .catch( error => {
-              console.error( error );
-          } );
+      var eye = document.getElementById('eye');
+      $('#show').on('click', function(){
+        if($('#pass').attr('type') == 'password'){
+          $('#pass').attr('type', 'text');
+          eye.className = 'fas fa-fw fa-eye-slash';
+        }else{
+          $('#pass').attr('type', 'password');
+          eye.className = 'fas fa-fw fa-eye';
+        }
+      });
+    </script>
+
+    <script>
+      'use strict';
+
+      const mediaSource = new MediaSource();
+      mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
+      let mediaRecorder;
+      let recordedBlobs;
+      let sourceBuffer;
+
+      const errorMsgElement = document.querySelector('span#errorMsg');
+      const recordButton = document.querySelector('button#record');
+
+      recordButton.addEventListener('click', () => {
+        if (recordButton.textContent === 'Rekam') {
+          cameraButton.disabled = true;
+          startRecording();
+        } else {
+          cameraButton.disabled = false;
+          recordButton.textContent = 'Rekam';
+          stopRecording();
+        }
+      });
+
+      function handleSourceOpen(event) {
+        console.log('MediaSource opened');
+        sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+        console.log('Source buffer: ', sourceBuffer);
+      }
+
+      function handleDataAvailable(event) {
+        console.log('handleDataAvailable', event);
+        if (event.data && event.data.size > 0) {
+          recordedBlobs.push(event.data);
+        }
+      }
+
+      function startRecording() {
+        recordedBlobs = [];
+        let options = {mimeType: 'video/webm;codecs=vp9'};
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+          console.error(`${options.mimeType} is not Supported`);
+          errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+          options = {mimeType: 'video/webm;codecs=vp8'};
+          if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            console.error(`${options.mimeType} is not Supported`);
+            errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+            options = {mimeType: 'video/webm'};
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+              console.error(`${options.mimeType} is not Supported`);
+              errorMsgElement.innerHTML = `${options.mimeType} is not Supported`;
+              options = {mimeType: ''};
+            }
+          }
+        }
+
+        try {
+          mediaRecorder = new MediaRecorder(window.stream, options);
+        } catch (e) {
+          console.error('Exception while creating MediaRecorder:', e);
+          errorMsgElement.innerHTML = `Exception while creating MediaRecorder: ${JSON.stringify(e)}`;
+          return;
+        }
+
+        console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+        recordButton.textContent = 'Berhenti';
+        mediaRecorder.onstop = (event) => {
+          console.log('Recorder stopped: ', event);
+          console.log('Recorded Blobs: ', recordedBlobs);
+        };
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.start(10); // collect 10ms of data
+        console.log('MediaRecorder started', mediaRecorder);
+      }
+
+      function stopRecording() {
+        mediaRecorder.stop();
+
+        $.ajax({
+         url:"<?php echo site_url('Controller_siswa/analitik/rekam') ?>",
+         method:"POST",
+         data:{id:1},
+         dataType:"JSON",
+         success:function(data){
+          console.log('Berhasil');
+         }
+        });
+
+        const blob = new Blob(recordedBlobs, {type: 'video/mp4'});
+        const url = window.URL.createObjectURL(blob);
+        const tables = document.getElementsByTagName('table');
+        const row = document.createElement('tr');
+        const col2 = document.createElement('td');
+        const video = document.createElement('video');
+        const upld = document.createElement('a');
+        const br = document.createElement('br');
+        const filename = '';
+
+        const table = tables[tables.length - 1];
+        const rows = table.rows;
+        for(var i = 0, td; i < rows.length; i++){
+            var col1 = document.createElement('td');
+            var dnld = document.createElement('a');
+            dnld.download = "evaluasi"+(i+1)+".mp4";
+            video.onplaying = function(){playvideo()};
+            function playvideo(){
+              $.ajax({
+               url:"<?php echo site_url('Controller_siswa/analitik/playrecord') ?>",
+               method:"POST",
+               data:{id:1},
+               dataType:"JSON",
+               success:function(data){
+                console.log('Berhasil');
+               }
+              });
+            }
+            col1.appendChild(document.createTextNode(i + 1));
+        }
+
+        video.src = url;
+        video.controls = true;
+        video.tabindex = -1;
+        col2.appendChild(video);
+        col2.appendChild(br);
+
+        dnld.className = "btn btn-primary m-1";
+        dnld.href = url;
+        dnld.innerHTML = "<i class='fa fa-download'></i> Unduh";
+        col2.appendChild(dnld);
+
+        upld.className = "btn btn-primary m-1";
+        upld.href = "#";
+        upld.innerHTML = "<i class='fa fa-upload'></i> Kumpulkan";
+        upld.addEventListener("click", function(event){
+          event.preventDefault();
+          var konfirmasi = confirm("Apakah Anda yakin akan menggunggah video ini untuk dikumpulkan?");
+          if (konfirmasi) {
+            var xhr=new XMLHttpRequest();
+            xhr.onload = function(e) {
+              if(this.readyState === 4) {
+                console.log("Server returned: ",e.target.responseText);
+              }
+            };
+            var fd = new FormData();
+            fd.append("video_data", blob, filename);
+            fd.append("materi", 'materi');
+            xhr.open("POST","<?php echo site_url('Controller_siswa/uploadevaluasi') ?>",true);
+            xhr.send(fd);
+            $('#loadingModal').modal('show');
+
+            xhr.addEventListener('error', function(){
+              document.getElementById('loading').innerHTML = '<i class="fa fa-times fa-5x"></i>&nbsp;&nbsp;&nbsp;Video gagal diunggah';
+              setTimeout(function(){
+                window.location.reload();
+              }, 3000);
+            });
+
+            xhr.addEventListener('load', function(){
+              document.getElementById('loading').innerHTML = '<i class="fa fa-check fa-5x"></i>&nbsp;&nbsp;&nbsp;Video berhasil terunggah';
+              setTimeout(function(){
+                window.location.replace("<?php echo site_url('evaluasi') ?>");
+              }, 3000);
+            });
+          }
+        });
+        col2.appendChild(upld);
+
+        col1.className = "align-middle text-center";
+        col2.className = "align-middle text-center";
+        row.appendChild(col1);
+        row.appendChild(col2);
+        document.getElementById('mytable').appendChild(row);
+        
+        var hash = video.hash;
+        $('html, body').animate({
+          scrollTop: $(video).offset().top
+        }, 800, function(){
+          window.location.hash = hash;
+        });
+
+      }
+
+      function handleSuccess(stream) {
+        recordButton.disabled = false;
+        console.log('getUserMedia() got stream:', stream);
+        window.stream = stream;
+
+        const gumVideo = document.querySelector('video#gum');
+        gumVideo.srcObject = stream;
+      }
+
+      async function init(constraints) {
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+            console.log('Got MediaStream:', stream);
+            handleSuccess(stream);
+        })
+        .catch(error => {
+            console.error('Error accessing media devices.', error);
+        });
+      }
+
+      const cameraButton = document.querySelector('button#start');
+      cameraButton.addEventListener('click', async () => {
+        if (cameraButton.textContent == 'Buka Kamera') {
+          cameraButton.textContent = 'Tutup Kamera';
+          const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
+          const constraints = {
+            audio: {
+              echoCancellation: {exact: hasEchoCancellation}
+            },
+            video: {
+              width: 1280, height: 720
+            }
+          };
+          console.log('Using media constraints:', constraints);
+          await init(constraints);
+        }else{
+          cameraButton.textContent = 'Buka Kamera';
+          recordButton.disabled = true;
+          stream.getTracks().forEach(function(track) {
+            track.stop();
+          });
+        }
+      });
     </script>
   </body>
 </html>

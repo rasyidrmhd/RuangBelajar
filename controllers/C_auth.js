@@ -18,7 +18,7 @@ class C_auth {
             req.session.user = { id: user.id, role: user.role, fullName: user.Profile.fullName, photo: user.Profile.photo };
             res.redirect("/pengajar");
           } else {
-            res.redirect("/auth?message=Username atau password Anda salah");
+            res.redirect("/auth?message=Username or password is incorrect");
           }
         } else {
           return Student.findOne({ where: { [Op.or]: [{ username: username }, { email: username }] }, include: [studentProfile] });
@@ -29,15 +29,15 @@ class C_auth {
           const isValidPassword = bcrypt.compareSync(password, user.password);
           if (isValidPassword) {
             req.session.user = { id: user.id, role: user.role, fullName: user.studentProfile.fullName, photo: user.studentProfile.photo };
-            res.redirect("/siswa");
+            return res.redirect("/siswa");
           } else {
-            res.redirect("/auth?message=Username atau password Anda salah");
+            return res.redirect("/auth?message=Username or password is incorrect");
           }
         } else {
           if (!username || !password) {
-            res.redirect("/auth?message=Mohon isi username dan password Anda");
+            return res.redirect("/auth?message=Username and password required");
           } else {
-            res.redirect("/auth?message=Username atau password Anda salah");
+            return res.redirect("/auth?message=Username or password is incorrect");
           }
         }
       })
@@ -75,13 +75,13 @@ class C_auth {
         }
       })
       .then((added) => {
-        res.redirect("/auth?message=Akun Anda berhasil dibuat, silahkan login");
+        res.redirect("/auth?message=sukses");
       })
       .catch((err) => {
         console.log(err);
         let errors = [];
         if (err.name === "SequelizeUniqueConstraintError") {
-          errors[0] = "Username atau email sudah terdaftar";
+          errors[0] = "Username atau email is already registered";
         } else {
           errors = err.errors.map((err) => err.message);
         }

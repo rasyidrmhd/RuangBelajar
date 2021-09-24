@@ -7,7 +7,6 @@ const { isLoggedIn, isPengajar, isSiswa } = require("../middleware/session");
 const C_home = require("../controllers/C_home");
 
 router.get("/", C_home.getHome);
-
 router.use("/auth", isLoggedIn, auth);
 router.use("/pengajar", isPengajar, pengajar);
 router.use("/siswa", isSiswa, siswa);

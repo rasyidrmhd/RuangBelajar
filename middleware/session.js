@@ -14,7 +14,7 @@ const isLoggedIn = (req, res, next) => {
 const isPengajar = (req, res, next) => {
   let session = req.session.user;
   if (!session) {
-    res.redirect("/?message=Anda harus login terlebih dahulu");
+    res.redirect("/auth?message=You must login first");
   } else {
     if (session.role !== "pengajar") {
       res.redirect("/siswa");
@@ -27,7 +27,7 @@ const isPengajar = (req, res, next) => {
 const isSiswa = (req, res, next) => {
   let session = req.session.user;
   if (!session) {
-    res.redirect("/?message=Anda harus login terlebih dahulu");
+    res.redirect("/auth?message=You must login first");
   } else {
     if (session.role !== "siswa") {
       res.redirect("/pengajar");
