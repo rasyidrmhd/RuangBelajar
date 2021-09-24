@@ -11,7 +11,8 @@
     "formidable": "^1.2.2",
     "mv": "^2.1.1",
     "pg": "^8.7.1",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "webrtc": "^1.14.1"
   },
   "devDependencies": {},
   "scripts": {
