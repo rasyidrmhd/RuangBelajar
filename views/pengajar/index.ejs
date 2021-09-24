@@ -36,7 +36,10 @@
               <td><%= c.duration %> day</td>
               <td><%= c.getPrice() %></td>
               <td><%= dateFormatter(c.createdAt) %> pukul <%= timeFormatter(c.createdAt) %></td>
-              <td><a class="btn btn-success" href="/pengajar/<%= c.id %>/detailCourse">Lihat</a></td>
+              <td>
+                <a class="btn btn-block btn-success my-1" href="/pengajar/<%= c.id %>/detailCourse">See</a>
+                <a class="btn btn-block btn-danger my-1" href="/pengajar/delete-course/<%= c.id %>">Delete</a>
+              </td>
             </tr>
             <% }) %>
           </tbody>

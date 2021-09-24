@@ -1,16 +1,50 @@
 <%- include('../partials/htmlHeader') %>
-<h1>Login</h1>
+<div class="container">
+  <div class="row justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-xl-5 col-lg-12 col-md-9" style="z-index: 1;">
+      <div class="card o-hidden border-0 shadow-lg">
+        <div class="card-body p-0">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h3 text-gray-900">Ruang Belajar</h1>
+              <h2 class="h3 text-gray-900">Sign In</h2>
+              <% if (message) { %>
+                <% if (message === 'sukses') { %>
+               <span class="text-success">Your account successfully registered, you can login now</span>
+                <% }else{ %>
+               <span class="text-danger"><%= message %> </span>
+                 <% } %> 
+              <% } %>
+            </div>
+            <form class="user mt-4" method="POST" action="/auth">
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" aria-describedby="emailHelp" autocomplete="off" placeholder="Your unique username or email" name="username"/>
+              </div>
+              <div class="input-group mb-3">
+                <input id="pass" type="password" autocomplete="off" class="form-control form-control-user" name="password" placeholder="Your strong password" />
+                <div class="input-group-append">
+                  <span id="show" class="input-group-text bg-white" style="border-radius: 0px 50px 50px 0px"><i id="eye" class="fas fa-fw fa-eye"></i></span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-user btn-block">Login</button>
+              <hr />
+            </form>
+            <div class="text-center">
+              <p>Don't have account? <a class="text-decoration-none" href="/auth/register">Sign up</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <img src="/assets/csv/login.svg" style="width: 150%;margin-left: -150px; z-index:0;" alt="">
+    </div>
+  </div>
+</div>
 
-<% if (message) { %> <%= message %> <br />
-<% } %>
+<!-- <h1>Login</h1> -->
 
-<form action="/auth" method="POST">
-  <!-- <label for="role">Masuk Sebagai:</label>
-    <select name="role" id="role">
-      <option value="pengajar">Pengajar</option>
-      <option value="siswa">Siswa</option>
-    </select>
-    <br /><br /> -->
+<!-- <form action="/auth" method="POST">
   <label for="username">Username</label>
   <input type="text" name="username" placeholder="Your username or email" /><br /><br />
   <label for="pass">Password</label>
@@ -18,5 +52,5 @@
   <button type="submit">Login</button>
 </form>
 
-<p>Belom punya akun? Daftar <a href="/auth/register">disini</a></p>
+<p>Belom punya akun? Daftar <a href="/auth/register">disini</a></p> -->
 <%- include('../partials/htmlFooter') %>

@@ -44,7 +44,14 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      role: DataTypes.STRING,
+      role: {
+        type:DataTypes.STRING,
+        validate:{
+          notEmpty:{
+            msg: "Select your role"
+          }
+        }
+      },
     },
     {
       hooks: {
